@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
+export default class App extends Component {
+  constructor(){
+    super();
+
+    this.state = {
+      //filterStr with an empty string as a value 
+      filterStr: '',
+      //foods with an array of strings
+      foods: ['spaghetti', 'ice cream', 'sushi', 'bologna', 'cheese']
+
+    }
+
+  }
+  //filter
+  filStr = (value) => {
+    console.log('filStr value', value);
+    this.setState({
+      filterStr: value
+    })
+  }
+
+
+  render(){
+    
+    let foodsToDisplay = this.state.foods.filter((element,index) => {
+      return element.includes(this.state.filterStr);
+    })
+    .map((element,index) => {
+      return <h2 key={index}>{element}</h2>
+    })
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     
+      <input onChange={e => this.filStr(e.target.value)} type ='text' />
+      {foodsToDisplay}
     </div>
   );
 }
+}
 
-export default App;
